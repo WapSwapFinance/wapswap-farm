@@ -1,1 +1,1 @@
-# wapswap-farm
+# wapswap-controller
