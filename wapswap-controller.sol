@@ -1,6 +1,21 @@
+// 
+// 360Code: dhs7-29d1-09ad-9af2-acd9
+// 
+// █░█░█ ▄▀█ █▀█ █▀ █░█░█ ▄▀█ █▀█   █▀▀ █ █▄░█ ▄▀█ █▄░█ █▀▀ █▀▀
+// ▀▄▀▄▀ █▀█ █▀▀ ▄█ ▀▄▀▄▀ █▀█ █▀▀   █▀░ █ █░▀█ █▀█ █░▀█ █▄▄ ██▄
+// 
+// 
+// Website: https://wapswap.finance
+// Telegram: https://t.me/WapSwapFinance
+// GitHub: https://github.com/WapSwapFinance
+// 
+// Backed by Team Crypto360 (𝖙𝖍𝖊𝖈𝖗𝖞𝖕𝖙𝖔360.𝖈𝖔𝖒)
+// 
+
 // SPDX-License-Identifier: MIT
 pragma solidity 0.6.12;
 pragma experimental ABIEncoderV2;
+
 library SafeBEP20 {
     using SafeMath for uint256;
     using Address for address;
@@ -135,7 +150,7 @@ contract Ownable is Context {
      * NOTE: Renouncing ownership will leave the contract without an owner,
      * thereby removing any functionality that is only available to the owner.
      */
-    function renounceOwnership() public onlyOwner {
+    function renounceOwnership() external onlyOwner {
         emit OwnershipTransferred(_owner, address(0));
         _owner = address(0);
     }
@@ -144,7 +159,7 @@ contract Ownable is Context {
      * @dev Transfers ownership of the contract to a new account (`newOwner`).
      * Can only be called by the current owner.
      */
-    function transferOwnership(address newOwner) public onlyOwner {
+    function transferOwnership(address newOwner) external onlyOwner {
         _transferOwnership(newOwner);
     }
 
@@ -617,35 +632,35 @@ abstract contract BEP20 is Context, IBEP20, Ownable {
     /**
      * @dev Returns the token name.
      */
-    function name() public override view returns (string memory) {
+    function name() external override view returns (string memory) {
         return _name;
     }
 
     /**
      * @dev Returns the token decimals.
      */
-    function decimals() public override view returns (uint8) {
+    function decimals() external override view returns (uint8) {
         return _decimals;
     }
 
     /**
      * @dev Returns the token symbol.
      */
-    function symbol() public override view returns (string memory) {
+    function symbol() external override view returns (string memory) {
         return _symbol;
     }
 
     /**
      * @dev See {BEP20-totalSupply}.
      */
-    function totalSupply() public override view returns (uint256) {
+    function totalSupply() external override view returns (uint256) {
         return _totalSupply;
     }
 
     /**
      * @dev See {BEP20-balanceOf}.
      */
-    function balanceOf(address account) public override view returns (uint256) {
+    function balanceOf(address account) external override view returns (uint256) {
         return _balances[account];
     }
 
@@ -657,7 +672,7 @@ abstract contract BEP20 is Context, IBEP20, Ownable {
      * - `recipient` cannot be the zero address.
      * - the caller must have a balance of at least `amount`.
      */
-    function transfer(address recipient, uint256 amount) public override returns (bool) {
+    function transfer(address recipient, uint256 amount) external override returns (bool) {
         _transfer(_msgSender(), recipient, amount);
         return true;
     }
@@ -665,7 +680,7 @@ abstract contract BEP20 is Context, IBEP20, Ownable {
     /**
      * @dev See {BEP20-allowance}.
      */
-    function allowance(address owner, address spender) public override view returns (uint256) {
+    function allowance(address owner, address spender) external override view returns (uint256) {
         return _allowances[owner][spender];
     }
 
@@ -676,7 +691,7 @@ abstract contract BEP20 is Context, IBEP20, Ownable {
      *
      * - `spender` cannot be the zero address.
      */
-    function approve(address spender, uint256 amount) public override returns (bool) {
+    function approve(address spender, uint256 amount) external override returns (bool) {
         _approve(_msgSender(), spender, amount);
         return true;
     }
@@ -697,7 +712,7 @@ abstract contract BEP20 is Context, IBEP20, Ownable {
         address sender,
         address recipient,
         uint256 amount
-    ) public override returns (bool) {
+    ) external override returns (bool) {
         _transfer(sender, recipient, amount);
         _approve(
             sender,
@@ -719,7 +734,7 @@ abstract contract BEP20 is Context, IBEP20, Ownable {
      *
      * - `spender` cannot be the zero address.
      */
-    function increaseAllowance(address spender, uint256 addedValue) public returns (bool) {
+    function increaseAllowance(address spender, uint256 addedValue) external returns (bool) {
         _approve(_msgSender(), spender, _allowances[_msgSender()][spender].add(addedValue));
         return true;
     }
@@ -738,7 +753,7 @@ abstract contract BEP20 is Context, IBEP20, Ownable {
      * - `spender` must have allowance for the caller of at least
      * `subtractedValue`.
      */
-    function decreaseAllowance(address spender, uint256 subtractedValue) public returns (bool) {
+    function decreaseAllowance(address spender, uint256 subtractedValue) external returns (bool) {
         _approve(
             _msgSender(),
             spender,
@@ -755,7 +770,7 @@ abstract contract BEP20 is Context, IBEP20, Ownable {
      *
      * - `msg.sender` must be the token owner
      */
-    function mint(uint256 amount) public onlyOwner returns (bool) {
+    function mint(uint256 amount) external onlyOwner returns (bool) {
         _mint(_msgSender(), amount);
         return true;
     }
@@ -1096,254 +1111,22 @@ contract WAPPOS is BEP20('WAPPOS Token', 'WAP_POS') {
     }
     
     /// @notice Creates `_amount` token to `_to`. Must only be called by the owner (MasterChef).
-    function mint(address _to, uint256 _amount) public onlyOwner {
+    function mint(address _to, uint256 _amount) external onlyOwner {
         _mint(_to, _amount);
-        _moveDelegates(address(0), _delegates[_to], _amount);
     }
 
-    function burn(address _from ,uint256 _amount) public onlyOwner {
+    function burn(address _from ,uint256 _amount) external onlyOwner {
         _burn(_from, _amount);
-        _moveDelegates(address(0), _delegates[_from], _amount);
     }
 
     // Safe wap transfer function, just in case if rounding error causes pool to not have enough waps.
-    function safewapTransfer(address _to, uint256 _amount) public onlyOwner {
+    function safewapTransfer(address _to, uint256 _amount) external onlyOwner {
         uint256 wapBal = wap.balanceOf(address(this));
         if (_amount > wapBal) {
             wap.transfer(_to, wapBal);
         } else {
             wap.transfer(_to, _amount);
         }
-    }
-
-    // Copied and modified from YAM code:
-    // https://github.com/yam-finance/yam-protocol/blob/master/contracts/token/YAMGovernanceStorage.sol
-    // https://github.com/yam-finance/yam-protocol/blob/master/contracts/token/YAMGovernance.sol
-    // Which is copied and modified from COMPOUND:
-    // https://github.com/compound-finance/compound-protocol/blob/master/contracts/Governance/Comp.sol
-
-    /// @dev A record of each accounts delegate
-    mapping (address => address) internal _delegates;
-
-    /// @notice A checkpoint for marking number of votes from a given block
-    struct Checkpoint {
-        uint32 fromBlock;
-        uint256 votes;
-    }
-
-    /// @notice A record of votes checkpoints for each account, by index
-    mapping (address => mapping (uint32 => Checkpoint)) public checkpoints;
-
-    /// @notice The number of checkpoints for each account
-    mapping (address => uint32) public numCheckpoints;
-
-    /// @notice The EIP-712 typehash for the contract's domain
-    bytes32 public constant DOMAIN_TYPEHASH = keccak256("EIP712Domain(string name,uint256 chainId,address verifyingContract)");
-
-    /// @notice The EIP-712 typehash for the delegation struct used by the contract
-    bytes32 public constant DELEGATION_TYPEHASH = keccak256("Delegation(address delegatee,uint256 nonce,uint256 expiry)");
-
-    /// @notice A record of states for signing / validating signatures
-    mapping (address => uint) public nonces;
-
-      /// @notice An event thats emitted when an account changes its delegate
-    event DelegateChanged(address indexed delegator, address indexed fromDelegate, address indexed toDelegate);
-
-    /// @notice An event thats emitted when a delegate account's vote balance changes
-    event DelegateVotesChanged(address indexed delegate, uint previousBalance, uint newBalance);
-
-    /**
-     * @notice Delegate votes from `msg.sender` to `delegatee`
-     * @param delegator The address to get delegatee for
-     */
-    function delegates(address delegator)
-        external
-        view
-        returns (address)
-    {
-        return _delegates[delegator];
-    }
-
-   /**
-    * @notice Delegate votes from `msg.sender` to `delegatee`
-    * @param delegatee The address to delegate votes to
-    */
-    function delegate(address delegatee) external {
-        return _delegate(msg.sender, delegatee);
-    }
-
-    /**
-     * @notice Delegates votes from signatory to `delegatee`
-     * @param delegatee The address to delegate votes to
-     * @param nonce The contract state required to match the signature
-     * @param expiry The time at which to expire the signature
-     * @param v The recovery byte of the signature
-     * @param r Half of the ECDSA signature pair
-     * @param s Half of the ECDSA signature pair
-     */
-    function delegateBySig(
-        address delegatee,
-        uint nonce,
-        uint expiry,
-        uint8 v,
-        bytes32 r,
-        bytes32 s
-    )
-        external
-    {
-        bytes32 domainSeparator = keccak256(
-            abi.encode(
-                DOMAIN_TYPEHASH,
-                keccak256(bytes(name())),
-                getChainId(),
-                address(this)
-            )
-        );
-
-        bytes32 structHash = keccak256(
-            abi.encode(
-                DELEGATION_TYPEHASH,
-                delegatee,
-                nonce,
-                expiry
-            )
-        );
-
-        bytes32 digest = keccak256(
-            abi.encodePacked(
-                "\x19\x01",
-                domainSeparator,
-                structHash
-            )
-        );
-
-        address signatory = ecrecover(digest, v, r, s);
-        require(signatory != address(0), "wap::delegateBySig: invalid signature");
-        require(nonce == nonces[signatory]++, "wap::delegateBySig: invalid nonce");
-        require(now <= expiry, "wap::delegateBySig: signature expired");
-        return _delegate(signatory, delegatee);
-    }
-
-    /**
-     * @notice Gets the current votes balance for `account`
-     * @param account The address to get votes balance
-     * @return The number of current votes for `account`
-     */
-    function getCurrentVotes(address account)
-        external
-        view
-        returns (uint256)
-    {
-        uint32 nCheckpoints = numCheckpoints[account];
-        return nCheckpoints > 0 ? checkpoints[account][nCheckpoints - 1].votes : 0;
-    }
-
-    /**
-     * @notice Determine the prior number of votes for an account as of a block number
-     * @dev Block number must be a finalized block or else this function will revert to prevent misinformation.
-     * @param account The address of the account to check
-     * @param blockNumber The block number to get the vote balance at
-     * @return The number of votes the account had as of the given block
-     */
-    function getPriorVotes(address account, uint blockNumber)
-        external
-        view
-        returns (uint256)
-    {
-        require(blockNumber < block.number, "wap::getPriorVotes: not yet determined");
-
-        uint32 nCheckpoints = numCheckpoints[account];
-        if (nCheckpoints == 0) {
-            return 0;
-        }
-
-        // First check most recent balance
-        if (checkpoints[account][nCheckpoints - 1].fromBlock <= blockNumber) {
-            return checkpoints[account][nCheckpoints - 1].votes;
-        }
-
-        // Next check implicit zero balance
-        if (checkpoints[account][0].fromBlock > blockNumber) {
-            return 0;
-        }
-
-        uint32 lower = 0;
-        uint32 upper = nCheckpoints - 1;
-        while (upper > lower) {
-            uint32 center = upper - (upper - lower) / 2; // ceil, avoiding overflow
-            Checkpoint memory cp = checkpoints[account][center];
-            if (cp.fromBlock == blockNumber) {
-                return cp.votes;
-            } else if (cp.fromBlock < blockNumber) {
-                lower = center;
-            } else {
-                upper = center - 1;
-            }
-        }
-        return checkpoints[account][lower].votes;
-    }
-
-    function _delegate(address delegator, address delegatee)
-        internal
-    {
-        address currentDelegate = _delegates[delegator];
-        uint256 delegatorBalance = balanceOf(delegator); // balance of underlying waps (not scaled);
-        _delegates[delegator] = delegatee;
-
-        emit DelegateChanged(delegator, currentDelegate, delegatee);
-
-        _moveDelegates(currentDelegate, delegatee, delegatorBalance);
-    }
-
-    function _moveDelegates(address srcRep, address dstRep, uint256 amount) internal {
-        if (srcRep != dstRep && amount > 0) {
-            if (srcRep != address(0)) {
-                // decrease old representative
-                uint32 srcRepNum = numCheckpoints[srcRep];
-                uint256 srcRepOld = srcRepNum > 0 ? checkpoints[srcRep][srcRepNum - 1].votes : 0;
-                uint256 srcRepNew = srcRepOld.sub(amount);
-                _writeCheckpoint(srcRep, srcRepNum, srcRepOld, srcRepNew);
-            }
-
-            if (dstRep != address(0)) {
-                // increase new representative
-                uint32 dstRepNum = numCheckpoints[dstRep];
-                uint256 dstRepOld = dstRepNum > 0 ? checkpoints[dstRep][dstRepNum - 1].votes : 0;
-                uint256 dstRepNew = dstRepOld.add(amount);
-                _writeCheckpoint(dstRep, dstRepNum, dstRepOld, dstRepNew);
-            }
-        }
-    }
-
-    function _writeCheckpoint(
-        address delegatee,
-        uint32 nCheckpoints,
-        uint256 oldVotes,
-        uint256 newVotes
-    )
-        internal
-    {
-        uint32 blockNumber = safe32(block.number, "wap::_writeCheckpoint: block number exceeds 32 bits");
-
-        if (nCheckpoints > 0 && checkpoints[delegatee][nCheckpoints - 1].fromBlock == blockNumber) {
-            checkpoints[delegatee][nCheckpoints - 1].votes = newVotes;
-        } else {
-            checkpoints[delegatee][nCheckpoints] = Checkpoint(blockNumber, newVotes);
-            numCheckpoints[delegatee] = nCheckpoints + 1;
-        }
-
-        emit DelegateVotesChanged(delegatee, oldVotes, newVotes);
-    }
-
-    function safe32(uint n, string memory errorMessage) internal pure returns (uint32) {
-        require(n < 2**32, errorMessage);
-        return uint32(n);
-    }
-
-    function getChainId() internal pure returns (uint) {
-        uint256 chainId;
-        assembly { chainId := chainid() }
-        return chainId;
     }
 }
 
@@ -1359,6 +1142,17 @@ contract WAPController is Ownable {
         uint256 indexed pid,
         uint256 amount
     );
+    
+    event SetDevAddress(address indexed oldDev, address indexed newDev);
+    event SetPoolAdder(address indexed oldAdder, address indexed newAdder);
+    event SetWapPerBlock(uint256 oldPerBlock, uint256 newPerBlock);
+    event SetMultiplier(uint256 oldMultiplier, uint256 newMultiplier);
+    event SetMinReward(uint256 oldReward, uint256 newReward);
+    event SetReferralReward(uint256 oldReferralReward, uint256 newReferralReward);
+    event SetDevFee(uint256 oldFee, uint256 newFee);
+    event SetNewWap(address indexed _newWap);
+    event SetNewWapPos(address indexed _newWapPos);
+    
 
     struct UserInfo {
         uint256 amount; // How many LP tokens the user has provided.
@@ -1378,7 +1172,7 @@ contract WAPController is Ownable {
     // The WAP TOKEN!
     WAPPOS public wapPos;
     //Pools, Farms, Dev percent decimals
-    uint256 public percentDec = 1000000;
+    uint256 constant public percentDec = 1000000;
     //Developers percent from token per block
     uint256 public devPercent;
     // Dev address.
@@ -1402,12 +1196,18 @@ contract WAPController is Ownable {
     uint public MIN_WITHDRAW = 7 days;
     mapping(address => uint256) public _referrersFarm;
     mapping(address => uint256) public _referrersStake;
+    mapping(address => bool) public _poolExists;
     address public poolAdder;
     address public referralAddr;
     address public lotteryAddr;
 
     modifier onlyPoolAdder() {
         require(poolAdder == _msgSender(), 'EmissionError: caller is not the emission alterer');
+        _;
+    }
+    
+    modifier validatePoolByPid(uint256 _pid) {
+        require (_pid < poolInfo . length , "Pool does not exist") ;
         _;
     }
 
@@ -1421,6 +1221,11 @@ contract WAPController is Ownable {
         address _lotteryAddr,
         uint256 _wapPerBlock
     ) public {
+        require(_devaddr != address(0), "WAPController: _devaddr should not be zero address");
+        require(_poolAdder != address(0), "WAPController: _poolAdder should not be zero address");
+        require(_refAddr != address(0), "WAPController: _refAddr should not be zero address");
+        require(_lotteryAddr != address(0), "WAPController: _lotteryAddr should not be zero address");
+        
         WAP = _WAP;
         wapPos = _wapP;
         devaddr = _devaddr;
@@ -1437,15 +1242,18 @@ contract WAPController is Ownable {
             lastRewardBlock: startBlock,
             accWAPPerShare: 0
         }));
-
-        totalAllocPoint = 1000;
+        _poolExists[address(_WAP)] = true;
     }
     
     function setPoolAdder(address _poolAdder) external onlyOwner {
+        require(_poolAdder != address(0), "WAPController: _poolAdder should not be zero address");
+        emit SetPoolAdder(poolAdder, _poolAdder);
         poolAdder = _poolAdder;
     }
     
     function setDevFee(uint256 _fee) external onlyOwner {
+        require(_fee <= 1000000, "Fee Should Not Exceeds 1000000");
+        emit SetDevFee(devPercent, _fee);
         devPercent = _fee;
     }
     
@@ -1458,11 +1266,13 @@ contract WAPController is Ownable {
     }
     
     function setWAPPerBlock(uint256 _emission) external onlyOwner {
+        emit SetWapPerBlock(WAPPerBlock, _emission);
         massUpdatePools();
         WAPPerBlock = _emission;
     }
 
-    function updateMultiplier(uint256 multiplierNumber) public onlyOwner {
+    function updateMultiplier(uint256 multiplierNumber) external onlyOwner {
+        emit SetMultiplier(BONUS_MULTIPLIER, multiplierNumber);
         BONUS_MULTIPLIER = multiplierNumber;
     }
 
@@ -1471,6 +1281,7 @@ contract WAPController is Ownable {
     }
     
     function setMinReward(uint _minWithdraw) external onlyOwner {
+        emit SetMinReward(MIN_WITHDRAW, _minWithdraw);
         MIN_WITHDRAW = _minWithdraw;
     }
     
@@ -1480,7 +1291,8 @@ contract WAPController is Ownable {
 
     // Add a new lp to the pool. Can only be called by the owner.
     // XXX DO NOT add the same LP token more than once. Rewards will be messed up if you do.
-    function add( uint256 _allocPoint, IBEP20 _lpToken, bool _withUpdate ) public onlyPoolAdder {
+    function add( uint256 _allocPoint, IBEP20 _lpToken, bool _withUpdate ) external onlyPoolAdder {
+        require(!_poolExists[address(_lpToken)], "[!] Pool Already Exists");
         if (_withUpdate) {
             massUpdatePools();
         }
@@ -1494,10 +1306,11 @@ contract WAPController is Ownable {
                 accWAPPerShare: 0
             })
         );
+        _poolExists[address(_lpToken)] = true;
     }
 
     // Update the given pool's WAP allocation point. Can only be called by the owner.
-    function set( uint256 _pid, uint256 _allocPoint, bool _withUpdate) public onlyPoolAdder {
+    function set( uint256 _pid, uint256 _allocPoint, bool _withUpdate) external onlyPoolAdder validatePoolByPid(_pid) {
         if (_withUpdate) {
             massUpdatePools();
         }
@@ -1509,22 +1322,13 @@ contract WAPController is Ownable {
     function getMultiplier(uint256 _from, uint256 _to) public view returns (uint256) {
          return _to.sub(_from).mul(BONUS_MULTIPLIER);
     }
-    
-    function setEmission(uint256 _perBlock) external onlyOwner {
-        massUpdatePools();
-        WAPPerBlock = _perBlock;
-    }
 
     // Check referral and send rewards
-    function checkReferral(address _user, uint256 _amount) internal view returns(uint256){
-        address referral = WAP.referrer(_user);
-        if(referral != address(0)){
-            return _amount.mul(referralReward).div(1e2);
-        }
-        return _amount;
+    function checkReferral(uint256 _amount) internal view returns(uint256){
+        return _amount.mul(referralReward).div(1e2);
     }
     // View function to see pending WAPs on frontend.
-    function pendingWAP(uint256 _pid, address _user) external view returns (uint256){
+    function pendingWAP(uint256 _pid, address _user) external validatePoolByPid(_pid) view returns (uint256) {
         PoolInfo storage pool = poolInfo[_pid];
         UserInfo storage user = userInfo[_pid][_user];
         uint256 accWAPPerShare = pool.accWAPPerShare;
@@ -1538,7 +1342,7 @@ contract WAPController is Ownable {
             accWAPPerShare = accWAPPerShare.add(WAPReward.mul(1e12).div(lpSupply));
             
         }
-        return checkReferral(_user, user.amount.mul(accWAPPerShare).div(1e12).sub(user.rewardDebt));
+        return checkReferral(user.amount.mul(accWAPPerShare).div(1e12).sub(user.rewardDebt));
     }
 
     // Update reward vairables for all pools. Be careful of gas spending!
@@ -1550,7 +1354,7 @@ contract WAPController is Ownable {
     }
 
     // Update reward variables of the given pool to be up-to-date.
-    function updatePool(uint256 _pid) public {
+    function updatePool(uint256 _pid) public validatePoolByPid(_pid) {
         PoolInfo storage pool = poolInfo[_pid];
         if (block.number <= pool.lastRewardBlock) {
             return;
@@ -1559,7 +1363,7 @@ contract WAPController is Ownable {
         if (_pid == 0){
             lpSupply = depositedWAP;
         }
-        if (lpSupply <= 0) {
+        if (lpSupply == 0) {
             pool.lastRewardBlock = block.number;
             return;
         }
@@ -1576,6 +1380,7 @@ contract WAPController is Ownable {
     }
     
     function setReferralReward(uint256 _rewards) external onlyOwner {
+        emit SetReferralReward(referralReward, _rewards);
         referralReward = _rewards;
     }
     
@@ -1587,7 +1392,7 @@ contract WAPController is Ownable {
     }
 
     // Deposit LP tokens to MasterChef for WAP allocation.
-    function deposit(uint256 _pid, uint256 _amount) public {
+    function deposit(uint256 _pid, uint256 _amount) external validatePoolByPid(_pid) {
         require (_pid != 0, 'deposit WAP by staking');
 
         PoolInfo storage pool = poolInfo[_pid];
@@ -1628,16 +1433,16 @@ contract WAPController is Ownable {
         }else{
             safeWAPTransfer(referralAddr, refRewards);
             if(compareStrings("farm", which)){
-                _referrersFarm[referral] = _referrersFarm[referral].add(refRewards);
+                _referrersFarm[referralAddr] = _referrersFarm[referralAddr].add(refRewards);
             }else {
-                _referrersStake[referral] = _referrersStake[referral].add(refRewards);
+                _referrersStake[referralAddr] = _referrersStake[referralAddr].add(refRewards);
             }
         }
         return pendingRewards;
     }
 
     // Withdraw LP tokens from MasterChef.
-    function withdraw(uint256 _pid, uint256 _amount) public {
+    function withdraw(uint256 _pid, uint256 _amount) external validatePoolByPid(_pid) {
 
         require (_pid != 0, 'withdraw WAP by unstaking');
 
@@ -1658,7 +1463,7 @@ contract WAPController is Ownable {
     }
 
         // Stake WAP tokens to MasterChef
-    function enterStaking(uint256 _amount, bool _isCompounding) public {
+    function enterStaking(uint256 _amount, bool _isCompounding) external {
         PoolInfo storage pool = poolInfo[0];
         UserInfo storage user = userInfo[0][msg.sender];
         updatePool(0);
@@ -1688,7 +1493,7 @@ contract WAPController is Ownable {
     }
 
     // Withdraw WAP tokens from STAKING.
-    function leaveStaking(uint256 _amount) public {
+    function leaveStaking(uint256 _amount) external {
         PoolInfo storage pool = poolInfo[0];
         UserInfo storage user = userInfo[0][msg.sender];
         require(user.amount >= _amount, "withdraw: not good");
@@ -1712,25 +1517,24 @@ contract WAPController is Ownable {
     }
 
     // Withdraw without caring about rewards. EMERGENCY ONLY.
-    function emergencyWithdraw(uint256 _pid) public {
+    function emergencyWithdraw(uint256 _pid) external validatePoolByPid(_pid) {
         PoolInfo storage pool = poolInfo[_pid];
         UserInfo storage user = userInfo[_pid][msg.sender];
-        pool.lpToken.safeTransfer(address(msg.sender), user.amount);
-        emit EmergencyWithdraw(msg.sender, _pid, user.amount);
+        uint256 amount = user.amount;
         user.amount = 0;
         user.rewardDebt = 0;
+        pool.lpToken.safeTransfer(address(msg.sender), amount);
+        emit EmergencyWithdraw(msg.sender, _pid, user.amount);
     }
 
     function safeWAPTransfer(address _to, uint256 _amount) internal {
         wapPos.safewapTransfer(_to, _amount);
     }
 
-    function setDevAddress(address _devaddr) public onlyOwner {
+    function setDevAddress(address _devaddr) external onlyOwner {
+        require(_devaddr != address(0), "WAPController: _devaddr should not be zero address");
+        emit SetDevAddress(devaddr, _devaddr);
         devaddr = _devaddr;
-    }
-    
-    function updateWAPPerBlock(uint256 newAmount) public onlyOwner {
-        WAPPerBlock = newAmount;
     }
     
     function transferWAPOwner(address owner) external onlyOwner {
@@ -1742,10 +1546,14 @@ contract WAPController is Ownable {
     }
     
     function setWAP(WAP_TOKEN _token) external onlyOwner {
+        require(_token != WAP_TOKEN(0), "WAPController: _token should not be zero address");
+        emit SetNewWap(address(_token));
         WAP = _token;
     }
     
     function setWAPPOS(WAPPOS _token) external onlyOwner {
+        require(_token != WAPPOS(0), "WAPController: _token should not be zero address");
+        emit SetNewWapPos(address(_token));
         wapPos = _token;
     }
 }
