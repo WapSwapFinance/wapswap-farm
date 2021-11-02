@@ -1325,7 +1325,7 @@ contract WAPController is Ownable {
 
     // Check referral and send rewards
     function checkReferral(uint256 _amount) internal view returns(uint256){
-        return _amount.mul(referralReward).div(1e2);
+        return _amount.sub(_amount.mul(referralReward).div(1e2));
     }
     // View function to see pending WAPs on frontend.
     function pendingWAP(uint256 _pid, address _user) external validatePoolByPid(_pid) view returns (uint256) {
@@ -1524,7 +1524,7 @@ contract WAPController is Ownable {
         user.amount = 0;
         user.rewardDebt = 0;
         pool.lpToken.safeTransfer(address(msg.sender), amount);
-        emit EmergencyWithdraw(msg.sender, _pid, user.amount);
+        emit EmergencyWithdraw(msg.sender, _pid, amount);
     }
 
     function safeWAPTransfer(address _to, uint256 _amount) internal {
