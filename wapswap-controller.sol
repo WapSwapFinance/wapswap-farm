@@ -1520,6 +1520,9 @@ contract WAPController is Ownable {
     function emergencyWithdraw(uint256 _pid) external validatePoolByPid(_pid) {
         PoolInfo storage pool = poolInfo[_pid];
         UserInfo storage user = userInfo[_pid][msg.sender];
+        if(_pid == 0) {
+            wapPos.burn(msg.sender, user.amount);
+        }
         uint256 amount = user.amount;
         user.amount = 0;
         user.rewardDebt = 0;
