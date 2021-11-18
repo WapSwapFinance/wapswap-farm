@@ -1371,8 +1371,8 @@ contract WAPController is Ownable {
         uint256 multiplier = getMultiplier(pool.lastRewardBlock, block.number);
         uint256 WAPReward = multiplier.mul(_getWAPPerBlock()).mul(pool.allocPoint).div(totalAllocPoint);
         uint256 devFee = WAPReward.mul(devPercent).div(percentDec);
-        
-        WAP.mintRewards(address(wapPos), WAPReward);
+    
+        WAP.mintRewards(address(wapPos), WAPReward.sub(devFee);
         WAP.mintRewards(address(devaddr), devFee);
         
         pool.accWAPPerShare = pool.accWAPPerShare.add(WAPReward.mul(1e12).div(lpSupply));
