@@ -1372,7 +1372,7 @@ contract WAPController is Ownable {
         uint256 WAPReward = multiplier.mul(_getWAPPerBlock()).mul(pool.allocPoint).div(totalAllocPoint);
         uint256 devFee = WAPReward.mul(devPercent).div(percentDec);
     
-        WAP.mintRewards(address(wapPos), WAPReward.sub(devFee);
+        WAP.mintRewards(address(wapPos), WAPReward.sub(devFee));
         WAP.mintRewards(address(devaddr), devFee);
         
         pool.accWAPPerShare = pool.accWAPPerShare.add(WAPReward.mul(1e12).div(lpSupply));
@@ -1406,8 +1406,15 @@ contract WAPController is Ownable {
                 initPending(devaddr, pending, 'farm');
             }
         }
+        
+        // Initial Balance when transferring tokens
+        uint256 _lpBalance = pool.lpToken.balanceOf(address(this));
         pool.lpToken.safeTransferFrom(address(msg.sender), address(this), _amount);
-        user.amount = user.amount.add(_amount);
+        // Balance after transferring tokens
+        uint256 _lpBalanceNow = pool.lpToken.balanceOf(address(this));
+        uint256 _amountTransferred = _lpBalanceNow.sub(_lpBalance); // Balance Received as total
+
+        user.amount = user.amount.add(_amountTransferred);
         user._lastInvested = block.timestamp;
         user._blockInvested = block.number;
         user.rewardDebt = user.amount.mul(pool.accWAPPerShare).div(1e12);
